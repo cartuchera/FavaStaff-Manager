@@ -24,7 +24,15 @@ function LoginForm({ onLogin }) {
         body: JSON.stringify({ nombre: usuario, contraseña }),
       });
       if (res.ok) {
-        onLogin();
+        const data = await res.json();
+        // Pasar datos del usuario al callback
+        const datosUsuario = {
+          nombre: data.usuario?.nombre || usuario,
+          apellido: data.usuario?.apellido || '',
+          puesto: data.usuario?.puesto || 'Administrador',
+          id: data.usuario?.id || null
+        };
+        onLogin(datosUsuario);
       } else {
         const data = await res.json();
         setError(data.error || 'Usuario o contraseña incorrectos.');
