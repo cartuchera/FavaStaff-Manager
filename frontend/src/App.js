@@ -7,6 +7,7 @@ import FormularioBaja from './components/FormularioBaja';
 import ProgressBar1 from './components/ProgressBar1';
 import DynamicProgressBars from './components/DynamicProgressBars';
 import LoginForm from './components/LoginForm';
+import ReservasPage from './components/ReservasPage';
 
 function App() {
   const [empleados, setEmpleados] = useState([]);
@@ -14,6 +15,7 @@ function App() {
   const [logueado, setLogueado] = useState(false);
   const [usuarioActual, setUsuarioActual] = useState(null);
   const [pestanaActiva, setPestanaActiva] = useState('empleados');
+  const [mostrarReservas, setMostrarReservas] = useState(false);
 
   // Verificar sesión al cargar la página
   useEffect(() => {
@@ -114,6 +116,16 @@ function App() {
     return <LoginForm onLogin={handleLogin} />;
   }
 
+  // Si está en modo reservas, mostrar la página de reservas
+  if (mostrarReservas) {
+    return (
+      <ReservasPage 
+        usuarioActual={usuarioActual}
+        onVolver={() => setMostrarReservas(false)}
+      />
+    );
+  }
+
   // Si está logueado, muestra el resto de la app
   return (
     <div className="App">
@@ -139,6 +151,23 @@ function App() {
                 {usuarioActual?.puesto || 'Administrador'}
               </span>
             </div>
+            <button 
+              className="reservas-btn" 
+              onClick={() => setMostrarReservas(true)}
+              style={{
+                background: '#10b981',
+                color: 'white',
+                border: 'none',
+                padding: '0.5rem 1rem',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                fontWeight: '500',
+                marginRight: '1rem',
+                fontSize: '0.9rem'
+              }}
+            >
+              📅 Reservas
+            </button>
             <button className="logout-btn" onClick={handleLogout}>
               🚪 Cerrar Sesión
             </button>
@@ -389,6 +418,13 @@ function App() {
             </div>
           )}
         </div>
+
+        {/* Página de Reservas */}
+        {mostrarReservas && (
+          <div className="reservas-page">
+            <ReservasPage onClose={() => setMostrarReservas(false)} />
+          </div>
+        )}
       </main>
     </div>
   );

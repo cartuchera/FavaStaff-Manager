@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  # Base de datos PostgreSQL
+  postgres:
+    image: postgres:15
+    container_name: favastaff_db
+    environment:
+      POSTGRES_DB: favastaff
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: favastaff123
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/database:/docker-entrypoint-initdb.d
+    networks:
+      - favastaff_network
+
+  # Backend API
+  backend:
+    build: ./backend
+    container_name: favastaff_backend
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      DB_HOST: postgres
+      DB_USER: postgres
+      DB_PASSWORD: favastaff123
+      DB_NAME: favastaff
+      DB_PORT: 5432
+      EMAIL_USER: demo@hospital.com
+      EMAIL_PASS: demo_password
+    depends_on:
+      - postgres
+    networks:
+      - favastaff_network
+    restart: unless-stopped
+
+  # Frontend React
+  frontend:
+    build: ./frontend
+    container_name: favastaff_frontend
+    ports:
+      - "3001:3001"
+    environment:
+      REACT_APP_API_URL: http://localhost:3000
+    depends_on:
+      - backend
+    networks:
+      - favastaff_network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  favastaff_network:
+    driver: bridge

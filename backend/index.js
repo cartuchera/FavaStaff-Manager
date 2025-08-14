@@ -31,8 +31,14 @@ app.use('/puestos', puestosRoutes);
 const sectoresRoutes = require('./routes/departamentos'); // departamentos.js contiene sectores
 app.use('/sectores', sectoresRoutes);
 
+// Nueva ruta para reservas de equipos
+const reservasRoutes = require('./routes/reservas');
+app.use('/reservas', reservasRoutes);
+
 // Puerto y arranque
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en puerto ${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`🚀 Servidor FavaStaff corriendo en puerto ${PORT}`);
+  console.log(`🌐 Entorno: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`📊 Base de datos: ${process.env.DB_HOST || 'localhost'}`);
 });
