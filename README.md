@@ -242,9 +242,9 @@ Este proyecto está bajo la Licencia MIT - ver [LICENSE](LICENSE) para detalles.
 ## 👨‍💻 **AUTOR**
 
 **Tu Nombre**
-- GitHub: [@tu-usuario](https://github.com/tu-usuario)
-- Email: tu.email@ejemplo.com
-- LinkedIn: [Tu Perfil](https://linkedin.com/in/tu-perfil)
+- GitHub: [@cartuchera]([https://github.com/tu-usuario](https://github.com/cartuchera))
+- Email: EliasGabrielmaldonado@hotmail.com
+
 
 ## 🆘 **SOPORTE**
 
